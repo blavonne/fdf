@@ -31,6 +31,7 @@ static int	**create_z(size_t cols, size_t rows)
 	i = 0;
 	if (!(z = (int **)malloc(sizeof(int *) * rows)))
 		return (0);
+	//+1 нужно, чтобы не выйти в сегу в брезенхейме
 	while (i < rows)
 	{
 		if (!(z[i] = (int *)malloc(sizeof(int) * cols)))
@@ -70,9 +71,9 @@ int 	set_coords(t_map *map, t_fdf **coords, int cols)
 	tmp = *coords;
 	tmp->cols = cols;
 	tmp->rows = get_rows(map);
-	tmp->start_r = 10;
-	tmp->start_c = 50;
-	tmp->space = 40;
+	tmp->start_r = 50;
+	tmp->start_c = 150;
+	tmp->space = 20;
 	if (!tmp->cols || !tmp->rows)
 		return (0);
 	if (!(tmp->z = create_z(tmp->cols, tmp->rows)))

@@ -5,6 +5,7 @@
 # include "mlx.h"
 # include <unistd.h>
 # include <fcntl.h>
+# include <math.h>
 # include <stdio.h> //DELETE THIS
 
 typedef struct		s_map

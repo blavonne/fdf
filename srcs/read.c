@@ -46,25 +46,25 @@ static int	push_in_map(t_map **map, char *line)
 	return (1);
 }
 
-//static void	display_input(t_fdf **coords) //DELETE
-//{
-//	size_t	r;
-//	size_t	c;
-//
-//	r = 0;
-//	printf("ROWS: %i COLS: %i\n", (int)(*coords)->rows, (int)(*coords)->cols);
-//	while (r < (*coords)->rows)
-//	{
-//		c = 0;
-//		while (c < (*coords)->cols)
-//		{
-//			printf("%3i", (*coords)->z[r][c]);
-//			c++;
-//		}
-//		printf("\n");
-//		r++;
-//	}
-//}
+static void	display_input(t_fdf **coords) //DELETE
+{
+	size_t	r;
+	size_t	c;
+
+	r = 0;
+	printf("ROWS: %i COLS: %i\n", (int)(*coords)->rows, (int)(*coords)->cols);
+	while (r < (*coords)->rows)
+	{
+		c = 0;
+		while (c < (*coords)->cols)
+		{
+			printf("%3i", (*coords)->z[r][c]);
+			c++;
+		}
+		printf("\n");
+		r++;
+	}
+}
 
 //static void	display_input2(t_map *map) //DELETE
 //{
@@ -119,7 +119,7 @@ int			read_map(char *argv, t_fdf **coords)
 	close(fd);
 	fd = set_coords(map, coords, cols);
 //	display_input2(map); //DELETE
-	//fd ? display_input(coords) : 1; //DELETE
+	fd ? display_input(coords) : 1; //DELETE
 	clean_map(&map);
 	return (fd);
 }

@@ -1,27 +1,57 @@
 #include "fdf.h"
 #define MAX(a, b) a > b ? a : b
 
+static void	set_zoom(t_point **start, t_point **end, t_fdf *fdf)
+{
+	(*start)->r = fdf->space * (*start)->r;
+	(*start)->c = fdf->space * (*start)->c;
+	(*end)->r = fdf->space * (*end)->r;
+	(*end)->c = fdf->space * (*end)->c;
+}
+
+static void	set_shift(t_point **start, t_point **end, t_fdf *fdf)
+{
+	(*start)->r += fdf->start_r;
+	(*start)->c += fdf->start_c;
+	(*end)->r += fdf->start_r;
+	(*end)->c += fdf->start_c;
+}
+
+static void iso(t_point *point, int z)
+{
+	double	angle;
+	double	r_angle;
+
+	angle = 30;
+	r_angle = angle * M_PI / 180;
+	point->r = (float)(point->r * cos(r_angle) + point->c * sin(r_angle));
+	point->c = (float)(-point->r * sin(r_angle) + point->c * cos(r_angle) - z);
+}
+
 void	bresenham(t_point *start, t_point *end, t_fdf *fdf)
 {
 	float	dx;
 	float	dy;
 	int 	max;
-//	int 	z;
+	int 	z_start;
+	int 	z_end;
 
-//	printf("INT %i %i\n", (int)start->r/(int)fdf->space, (int)start->c/
-//			(int)fdf->space); //выход за пределы массива, т.к. индексы
-//			// умножены в другой функции
-//	z = fdf->z[(int)start->r][(int)start->c];
+	z_start = fdf->z[(int)start->r][(int)start->c];
+	z_end = fdf->z[(int)end->r][(int)end->c];
+	set_zoom(&start, &end, fdf);
+	fdf->color = (z_start || z_end) ? 0x00AA00AA : 0x00AAAA00;
+	iso(start, z_start);
+	iso(end, z_end);
+	set_shift(&start, &end, fdf);
 	dx = end->c - start->c;
 	dy = end->r - start->r;
 	max = MAX(abs((int)dx), abs((int)dy));
-
 	dx /= (float)max;
 	dy /= (float)max;
 	while ((int)(start->c - end->c) || (int)(start->r - end->r))
 	{
 		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, start->c, start->r,
-		0x00AAAA00);
+		fdf->color);
 		start->c += dx;
 		start->r += dy;
 	}

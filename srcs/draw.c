@@ -39,14 +39,14 @@
 //	}
 //}
 
-t_point	*point(size_t r, size_t c, t_fdf **fdf)
+t_point	*point(size_t r, size_t c)
 {
 	t_point	*p;
 
 	if (!(p = (t_point *)malloc(sizeof(t_point))))
 		return (NULL);
-	p->r = (*fdf)->start_r + (float)r * (float)(*fdf)->space;
-	p->c = (*fdf)->start_c + (float)c * (float)(*fdf)->space;
+	p->r = r;
+	p->c = c;
 	return (p);
 }
 
@@ -56,15 +56,15 @@ void	draw(t_fdf **fdf)
 	size_t	c;
 
 	r = 0;
-	while (r <= (*fdf)->rows)
+	while (r < (*fdf)->rows)
 	{
 		c = 0;
-		while (c <= (*fdf)->cols)
+		while (c < (*fdf)->cols)
 		{
-			if (c < (*fdf)->cols)
-				bresenham(point(r, c, fdf), point(r, c + 1, fdf), *fdf);
-			if (r < (*fdf)->rows)
-				bresenham(point(r, c, fdf), point(r + 1, c, fdf), *fdf);
+			if (c + 1 < (*fdf)->cols)
+				bresenham(point(r, c), point(r, c + 1), *fdf);
+			if (r + 1 < (*fdf)->rows)
+				bresenham(point(r, c), point(r + 1, c), *fdf);
 			c++;
 		}
 		r++;
