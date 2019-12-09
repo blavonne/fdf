@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
+# include "quaterni.h"
 # include <stdio.h> //DELETE THIS
 
 typedef struct		s_map
@@ -25,7 +26,7 @@ typedef struct		s_fdf
 	size_t 	cols;
 	size_t 	rows;
 	int 	**z;
-	size_t	space;
+	int		space;
 	int 	color;
 
 	float start_r;
@@ -44,4 +45,6 @@ int 				check_symb(char *line);
 void				bresenham(t_point *start, t_point *end, t_fdf *fdf);
 void				draw(t_fdf **fdf);
 void				draw_image(t_fdf *fdf);
+int					draw_qtrn(t_fdf *fdf);
+
 #endif

@@ -46,8 +46,9 @@ int main(int argc, char **argv)
 	fdf->mlx_ptr = mlx_init();
 	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1000, 600, "I NEED A DOCTOR");
 	mlx_key_hook(fdf->win_ptr, deal_key, (void *)0);
-	draw(&fdf);
+//	draw(&fdf);
 //	draw_image(fdf);
+	draw_qtrn(fdf);
 	mlx_loop(fdf->mlx_ptr);
 	//очистить fdf
 	return (0);

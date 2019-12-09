@@ -22,11 +22,20 @@ static void iso(t_point *point, int z)
 	double	angle;
 	double	r_angle;
 
-	angle = 30;
+	angle = 0;
 	r_angle = angle * M_PI / 180;
 	point->r = (float)(point->r * cos(r_angle) + point->c * sin(r_angle));
-	point->c = (float)(-point->r * sin(r_angle) + point->c * cos(r_angle) - z);
+	point->c = (angle > 0) ? (float)(-point->r * sin(r_angle) + point->c * cos
+			(r_angle) -	z * 20) : (float)(-point->r * sin(r_angle) + point->c *
+					cos(r_angle));
 }
+
+//static int	set_color(int z_start, int z_end)
+//{
+//	// 0x00AAAA00 желтый 0x00AA00AA розовый 0x0000AAAA не знаю
+//
+//	return (0);
+//}
 
 void	bresenham(t_point *start, t_point *end, t_fdf *fdf)
 {
@@ -39,6 +48,7 @@ void	bresenham(t_point *start, t_point *end, t_fdf *fdf)
 	z_start = fdf->z[(int)start->r][(int)start->c];
 	z_end = fdf->z[(int)end->r][(int)end->c];
 	set_zoom(&start, &end, fdf);
+//	fdf->color = set_color(z_start, z_end);
 	fdf->color = (z_start || z_end) ? 0x00AA00AA : 0x00AAAA00;
 	iso(start, z_start);
 	iso(end, z_end);

@@ -13,7 +13,7 @@
 NAME = fdf
 
 SRC = ./srcs/main.c ./srcs/read.c ./srcs/coords.c ./srcs/draw.c ./srcs/checks.c\
-	./srcs/bresenham.c
+	./srcs/bresenham.c ./srcs/quaterni.c
 OBJ = $(SRC:%.c=%.o)
 
 INCLUDES = ./includes
