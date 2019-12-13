@@ -61,13 +61,14 @@ typedef struct			s_camera
 
 typedef struct			s_fdf
 {
-	size_t 				cols; // os OX
-	size_t 				rows; // os OY
+	int 				cols; // os OX
+	int 				rows; // os OY
 	int 				**z; // os OZ[x][y]
-	size_t				space; //ZOOM
-	int 				color;
+	int					space; //ZOOM
 	int 				shift_y; //shift from 0,0
 	int 				shift_x;
+	int 				color;
+	int					angle;
 	void				*mlx_ptr;
 	void				*win_ptr;
 	void				*img_ptr;
@@ -79,11 +80,11 @@ typedef struct			s_fdf
 int						read_and_init(char *argv, t_fdf *fdf);
 int						init_fdf(t_map *map, t_fdf *fdf, int cols);
 int 					check_filename(char *argv);
-int 					check_input(char *line, size_t *rows);
+int 					check_input(char *line, int *rows);
 int 					check_symb(const char *line);
 void					bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf);
-void					draw_image(t_fdf **fdf);
-int						draw_qtrn(t_fdf *fdf);
+int						draw_image(t_fdf *fdf);
+void					draw_qtrn(t_fdf *fdf);
 int						ftclose(void *param);
 int						mpress(int button, int x, int y, void *param);
 int						mrelease(int button, int x, int y, void *param);
@@ -97,9 +98,6 @@ void					rotate(int key, t_fdf *fdf);
 void					print_menu(t_fdf *fdf);
 void					change_projection(int key, t_fdf *fdf);
 t_point					project(t_point p, t_fdf *fdf);
-static void				rot_z(int *y, int *x, double gm);
-static void				rot_y(int *x, int *z, double bt);
-static void				rot_x(int *y, int *z, double al);
-t_qtrn 					quaterni(int angle, float x, float y, int z);
+t_qtrn 					quaterni(t_fdf *fdf, int r, int c);
 
 #endif

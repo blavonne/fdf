@@ -1,13 +1,12 @@
 #include "fdf.h"
-#define MAX(a, b) a > b ? a : b
 
-static void	set_zoom(t_point **start, t_point **end, t_fdf *fdf)
-{
-	(*start)->r = fdf->space * (*start)->r;
-	(*start)->c = fdf->space * (*start)->c;
-	(*end)->r = fdf->space * (*end)->r;
-	(*end)->c = fdf->space * (*end)->c;
-}
+//static void	set_zoom(t_point **start, t_point **end, t_fdf *fdf)
+//{
+//	(*start)->r = fdf->space * (*start)->r;
+//	(*start)->c = fdf->space * (*start)->c;
+//	(*end)->r = fdf->space * (*end)->r;
+//	(*end)->c = fdf->space * (*end)->c;
+//}
 
 static void	set_delta(double *dx, double *dy, t_qtrn *start, t_qtrn *end)
 {

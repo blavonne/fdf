@@ -3,7 +3,7 @@
 /*
  * создание кватерниона - оси вращения
  */
-static t_qtrn	create_qtrn(float x, float y, int z, int angle)
+static t_qtrn	create_qtrn(int x, int y, int z, int angle)
 {
 	t_qtrn	new;
 	double	r_angle;
@@ -38,7 +38,7 @@ static t_qtrn	reverse_qtrn(t_qtrn prev)
 /*
  * создание чистого кватерниона-вектора из заданной точки
  */
-static t_qtrn	create_vector(float x, float y, int z)
+static t_qtrn	create_vector(int x, int y, int z)
 {
 	t_qtrn	new;
 
@@ -71,28 +71,18 @@ static t_qtrn	qtrn_multiply(t_qtrn qtrn, t_qtrn vector)
 /*
  * поворот точки в пространстве
  */
-static t_qtrn 	rotation(t_qtrn os, t_qtrn vector, t_qtrn reversed)
-{
-	t_qtrn	tmp;
-	t_qtrn	res;
-
-	tmp = qtrn_multiply(os, vector);
-	res = qtrn_multiply(tmp, reversed);
-	return (res);
-}
-
-t_qtrn 	quaterni(int angle, float x, float y, int z)
+t_qtrn 	quaterni(t_fdf *fdf, int r, int c)
 {
 	t_qtrn	os;
 	t_qtrn	vector;
 	t_qtrn	os_rev;
 	t_qtrn	res;
-	int 	rotation_angle;
 
-	rotation_angle = angle;
-	os = create_qtrn(1.0, 0.00, 0, rotation_angle);
-	vector = create_vector(x, y, z);
+	os = create_qtrn(1, 0, 0, (*fdf).angle);
+	vector = create_vector(c * (*fdf).space, r * (*fdf).space, (*fdf).z[r][c]
+	* (*fdf).space);
 	os_rev = reverse_qtrn(os);
-	res = rotation(os, vector, os_rev);
+	res = qtrn_multiply(os, vector);
+	res = qtrn_multiply(res, os_rev);
 	return (res);
 }

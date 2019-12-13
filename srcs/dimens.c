@@ -12,34 +12,34 @@
 
 #include "fdf.h"
 
-static void		rot_x(int *y, int *z, double al)
-{
-	int	pr_y;
-
-	pr_y = *y;
-	*y = pr_y * cos(al) + *z * sin(al);
-	*z = -pr_y * sin(al) + *z * cos(al);
-}
-
-static void		rot_y(int *x, int *z, double bt)
-{
-	int	pr_x;
-
-	pr_x = *x;
-	*x = pr_x * cos(bt) + *z * sin(bt);
-	*z = -pr_x * sin(bt) + *z * cos(bt);
-}
-
-static void		rot_z(int *y, int *x, double gm)
-{
-	int	pr_y;
-	int	pr_x;
-
-	pr_y = *y;
-	pr_x = *x;
-	*y = pr_x * sin(gm) + pr_y * cos(gm);
-	*x = pr_y * cos(gm) - pr_y * sin(gm);
-}
+//static void		rot_x(int *y, int *z, double al)
+//{
+//	int	pr_y;
+//
+//	pr_y = *y;
+//	*y = pr_y * cos(al) + *z * sin(al);
+//	*z = -pr_y * sin(al) + *z * cos(al);
+//}
+//
+//static void		rot_y(int *x, int *z, double bt)
+//{
+//	int	pr_x;
+//
+//	pr_x = *x;
+//	*x = pr_x * cos(bt) + *z * sin(bt);
+//	*z = -pr_x * sin(bt) + *z * cos(bt);
+//}
+//
+//static void		rot_z(int *y, int *x, double gm)
+//{
+//	int	pr_y;
+//	int	pr_x;
+//
+//	pr_y = *y;
+//	pr_x = *x;
+//	*y = pr_x * sin(gm) + pr_y * cos(gm);
+//	*x = pr_y * cos(gm) - pr_y * sin(gm);
+//}
 
 //t_point		project(t_point p, t_fdf *fdf)
 //{

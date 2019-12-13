@@ -6,7 +6,7 @@
 /*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 23:45:38 by jquincy           #+#    #+#             */
-/*   Updated: 2019/12/04 20:39:21 by jquincy          ###   ########.fr       */
+/*   Updated: 2019/12/14 01:41:23 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	zoom(int key, t_fdf **fdf)
 		(*fdf)->space--;
 	if ((*fdf)->space < 1)
 		(*fdf)->space = 1;
-	draw_image(fdf);
+	draw_image(*fdf);
 }
 
 void	move(int key, t_fdf **fdf)
@@ -39,7 +39,7 @@ void	move(int key, t_fdf **fdf)
 		(*fdf)->shift_y -= 10;
 	else
 		(*fdf)->shift_y += 10;
-	draw_image(fdf);
+	draw_image(*fdf);
 }
 
 //void	rotate(int key, t_fdf *fdf)

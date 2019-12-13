@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-static size_t	count_wrds(const char *tmp, char c)
+static int		count_wrds(const char *tmp, char c)
 {
 	size_t	i;
 	int		count;
@@ -41,7 +41,7 @@ int				check_symb(const char *line)
 	return (1);
 }
 
-int				check_input(char *line, size_t *rows)
+int				check_input(char *line, int *rows)
 {
 	if (!*rows)
 		*rows = count_wrds(line, ' ');

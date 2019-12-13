@@ -6,7 +6,7 @@
 /*   By: blavonne <blavonne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 19:33:03 by blavonne          #+#    #+#             */
-/*   Updated: 2019/12/14 00:25:10 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/14 00:28:05 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 	}
 	mlx_key_hook(fdf.win_ptr, deal_key, &fdf);
 	print_menu(&fdf);
-////	draw_image(fdf);
+//	draw_image(&fdf);
 	draw_qtrn(&fdf);
 	mlx_loop(fdf.mlx_ptr);
 //	//очистить fdf

@@ -48,8 +48,8 @@ static int	push_in_map(t_map **map, char *line)
 
 static void	display_input(t_fdf **coords) //DELETE
 {
-	size_t	r;
-	size_t	c;
+	int		r;
+	int		c;
 
 	r = 0;
 	printf("ROWS: %i COLS: %i\n", (int)(*coords)->rows, (int)(*coords)->cols);
@@ -99,7 +99,7 @@ int			read_and_init(char *argv, t_fdf *fdf)
 	char	*line;
 	t_map	*map;
 	int 	fd;
-	size_t 	cols;
+	int 	cols;
 
 	cols = 0;
 	fd = open(argv, O_RDONLY);
