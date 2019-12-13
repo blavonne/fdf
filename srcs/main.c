@@ -6,7 +6,7 @@
 /*   By: blavonne <blavonne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 19:33:03 by blavonne          #+#    #+#             */
-/*   Updated: 2019/12/02 18:21:44 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/12 19:33:50 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@
  * нажатая клавиша, которая сама определяется функцией млх кей хук
  */
 
-int 	deal_key(int key, void *param)
+int 	deal_key(int key, t_fdf *fdf)
 {
-	param = 0;
-	ft_putnbr(key);
-	if (key == 53)
+	if (key == MAIN_PAD_ESC)
 		exit(0);
+	if (key == NUM_PAD_PLUS || key == MAIN_PAD_PLUS
+		|| key == NUM_PAD_MINUS || key == MAIN_PAD_MINUS)
+		zoom(key, &fdf);
+	else if (key == ARROW_LEFT || key == ARROW_RIGHT
+			 || key == ARROW_UP || key == ARROW_DOWN)
+		move(key, &fdf);
 	return (0);
 }
 
@@ -44,8 +48,10 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 	fdf->mlx_ptr = mlx_init();
-	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1000, 600, "I NEED A DOCTOR");
-	mlx_key_hook(fdf->win_ptr, deal_key, (void *)0);
+	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT,
+								  "I NEED A DOCTOR");
+	mlx_key_hook(fdf->win_ptr, deal_key, fdf);
+	print_menu(&fdf);
 //	draw(&fdf);
 //	draw_image(fdf);
 	draw_qtrn(fdf);

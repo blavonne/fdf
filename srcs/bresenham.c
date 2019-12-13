@@ -11,10 +11,10 @@ static void	set_zoom(t_point **start, t_point **end, t_fdf *fdf)
 
 static void	set_shift(t_point **start, t_point **end, t_fdf *fdf)
 {
-	(*start)->r += fdf->start_r;
-	(*start)->c += fdf->start_c;
-	(*end)->r += fdf->start_r;
-	(*end)->c += fdf->start_c;
+	(*start)->r += fdf->shift_y;
+	(*start)->c += fdf->shift_x;
+	(*end)->r += fdf->shift_y;
+	(*end)->c += fdf->shift_x;
 }
 
 static void iso(t_point *point, int z)
@@ -29,13 +29,6 @@ static void iso(t_point *point, int z)
 			(r_angle) -	z * 20) : (float)(-point->r * sin(r_angle) + point->c *
 					cos(r_angle));
 }
-
-//static int	set_color(int z_start, int z_end)
-//{
-//	// 0x00AAAA00 желтый 0x00AA00AA розовый 0x0000AAAA не знаю
-//
-//	return (0);
-//}
 
 void	bresenham(t_point *start, t_point *end, t_fdf *fdf)
 {

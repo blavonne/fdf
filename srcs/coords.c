@@ -70,9 +70,9 @@ int 	set_coords(t_map *map, t_fdf **coords, int cols)
 	tmp = *coords;
 	tmp->cols = cols;
 	tmp->rows = get_rows(map);
-	tmp->start_r = 150;
-	tmp->start_c = 150;
-	tmp->space = 30;
+	tmp->shift_y = 250;
+	tmp->shift_x = 250;
+	tmp->space = 50;
 	tmp->color = 0x00AAAA00;
 	if (!tmp->cols || !tmp->rows)
 		return (0);

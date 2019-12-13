@@ -110,31 +110,47 @@ t_qtrn 	*quaterni(int angle, float x, float y, int z)
 	return (res);
 }
 
+static void	set_delta(double *dx, double *dy, t_qtrn **start, t_qtrn **end)
+{
+	if (fabs((*start)->x - (*end)->x) > fabs((*start)->y - (*end)->y))
+	{
+		*dx = ((*start)->x < (*end)->x) ? 1.0 : -1.0;
+		*dy = ((*start)->y < (*end)->y) ? (fabs((*start)->y - (*end)->y) /
+			  (fabs((*start)->x - (*end)->x))) : (-1 * fabs((*start)->y -
+			  		(*end)->y) / (fabs((*start)->x - (*end)->x)));
+	}
+	else
+	{
+		*dy = ((*start)->y < (*end)->y) ? 1.0 : -1.0;
+		*dx = ((*start)->x < (*end)->x) ? (fabs((*start)->x - (*end)->x) /
+			  (fabs((*start)->y - (*end)->y))) : (-1 * fabs((*start)->x -
+			  		(*end)->x) / (fabs((*start)->y - (*end)->y)));
+	}
+}
+
+static void	set_shift(t_qtrn **start, t_qtrn **end, int shift_x, int shift_y)
+{
+	(*start)->x += shift_x;
+	(*end)->x += shift_x;
+	(*start)->y += shift_y;
+	(*end)->y += shift_y;
+}
+
 void	bresenham2(t_qtrn **start, t_qtrn **end, t_fdf *fdf)
 {
 	double	dx;
 	double	dy;
-	int 	max;
 
-//	(*start)->x *= 0.0001;
-	(*start)->x += 250;
-//	(*start)->y *= 0.0001;
-	(*start)->y += 250;
-//	(*end)->x *= 0.0001;
-	(*end)->x += 250;
-//	(*end)->y *= 0.0001;
-	(*end)->y += 250;
-	dx = (*end)->x - (*start)->x;
-	dy = (*end)->y - (*start)->y;
-	max = MAX(fabs(dx), fabs(dy));
-	dx /= max;
-	dy /= max;
-	printf("start: [%i][%i]\nend: [%i][%i]\ndelta: dx[%i], dy[%i]\n",
-			(*start)->x, (*start)->y, (*end)->x, (*end)->y, dx, dy);
-	while (((*end)->x - (*start)->x) > 0.5 || ((*end)->y - (*start)->y) > 0.5)
+	set_shift(start, end, fdf->shift_x, fdf->shift_y);
+	set_delta(&dx, &dy, start, end);
+	while (fabs((*start)->x - (*end)->x) >= 0.5 || fabs((*start)->y - (*end)
+	->y) >= 0.5)
 	{
-		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (*start)->x, (*start)->y,
-				fdf->color);
+		//условие означает, что, если между точками есть разница при
+		// округлении, то мы будем отрисовывать точку. округление, как в
+		// математике.
+		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round((*start)->x),
+					  (int)round((*start)->y), fdf->color);
 		(*start)->x += dx;
 		(*start)->y += dy;
 	}
@@ -151,7 +167,7 @@ int		draw_qtrn(t_fdf *fdf)
 	point = NULL;
 	point2 = NULL;
 	r = 0;
-	alpha = 90;
+	alpha = 20;
 	while (r < fdf->rows)
 	{
 		c = 0;
@@ -181,6 +197,7 @@ int		draw_qtrn(t_fdf *fdf)
 				free(point);
 				free(point2);
 			}
+			fdf->color += 100;
 			c++;
 		}
 		r++;
