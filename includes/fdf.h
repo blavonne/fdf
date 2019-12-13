@@ -61,12 +61,12 @@ typedef struct			s_camera
 
 typedef struct			s_fdf
 {
-	size_t 				cols;
-	size_t 				rows;
-	int 				**z;
-	size_t				space;
+	size_t 				cols; // os OX
+	size_t 				rows; // os OY
+	int 				**z; // os OZ[x][y]
+	size_t				space; //ZOOM
 	int 				color;
-	int 				shift_y;
+	int 				shift_y; //shift from 0,0
 	int 				shift_x;
 	void				*mlx_ptr;
 	void				*win_ptr;
@@ -76,37 +76,30 @@ typedef struct			s_fdf
 
 }						t_fdf;
 
-int						read_map(char *argv, t_fdf **coords);
-int						set_coords(t_map *map, t_fdf **coords, int rows);
+int						read_and_init(char *argv, t_fdf *fdf);
+int						init_fdf(t_map *map, t_fdf *fdf, int cols);
 int 					check_filename(char *argv);
 int 					check_input(char *line, size_t *rows);
-int 					check_symb(char *line);
-void					bresenham(t_qtrn **start, t_qtrn **end, t_fdf *fdf);
-void					draw(t_fdf **fdf);
+int 					check_symb(const char *line);
+void					bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf);
 void					draw_image(t_fdf **fdf);
 int						draw_qtrn(t_fdf *fdf);
-int						read_map(char *argv, t_fdf **coords);
-int						set_coords(t_map *map, t_fdf **coords, int rows);
-int 					check_filename(char *argv);
-int 					check_input(char *line, size_t *rows);
-int 					check_symb(char *line);
 int						ftclose(void *param);
 int						mpress(int button, int x, int y, void *param);
 int						mrelease(int button, int x, int y, void *param);
 int						mmove(int x, int y, void *param);
 int						kpress(int key, t_fdf **fdf);
-void					draw(t_fdf **fdf);
 void					setcntrls(t_fdf **fdf);
 void					zoom(int key, t_fdf **fdf);
 void					move(int key, t_fdf **fdf);
 void					changez(int key, t_fdf *fdf);
 void					rotate(int key, t_fdf *fdf);
-void					print_menu(t_fdf **fdf);
+void					print_menu(t_fdf *fdf);
 void					change_projection(int key, t_fdf *fdf);
 t_point					project(t_point p, t_fdf *fdf);
 static void				rot_z(int *y, int *x, double gm);
 static void				rot_y(int *x, int *z, double bt);
 static void				rot_x(int *y, int *z, double al);
-t_qtrn 					*quaterni(int angle, float x, float y, int z);
+t_qtrn 					quaterni(int angle, float x, float y, int z);
 
 #endif

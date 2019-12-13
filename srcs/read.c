@@ -94,7 +94,7 @@ static int 	create_map(t_map **map)
 	return (1);
 }
 
-int			read_map(char *argv, t_fdf **coords)
+int			read_and_init(char *argv, t_fdf *fdf)
 {
 	char	*line;
 	t_map	*map;
@@ -117,9 +117,9 @@ int			read_map(char *argv, t_fdf **coords)
 	}
 	free(line);
 	close(fd);
-	fd = set_coords(map, coords, cols);
+	fd = init_fdf(map, fdf, cols);
 //	display_input2(map); //DELETE
-	fd ? display_input(coords) : 1; //DELETE
+	fd ? display_input(&fdf) : 1; //DELETE
 	clean_map(&map);
 	return (fd);
 }

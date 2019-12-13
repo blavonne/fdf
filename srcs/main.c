@@ -6,7 +6,7 @@
 /*   By: blavonne <blavonne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 19:33:03 by blavonne          #+#    #+#             */
-/*   Updated: 2019/12/12 19:33:50 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/14 00:25:10 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,18 @@ int 	deal_key(int key, t_fdf *fdf)
 
 int main(int argc, char **argv)
 {
-	t_fdf	*fdf;
+	t_fdf	fdf;
 
-	if (argc != 2 || !read_map(argv[1], &fdf))
+	if (argc != 2 || !read_and_init(argv[1], &fdf))
 	{
 		ft_putstr_fd("Input reading error.\nusage: ./fdf filename.fdf\n", 2);
 		exit(0);
 	}
-	fdf->mlx_ptr = mlx_init();
-	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT,
-								  "I NEED A DOCTOR");
-	mlx_key_hook(fdf->win_ptr, deal_key, fdf);
+	mlx_key_hook(fdf.win_ptr, deal_key, &fdf);
 	print_menu(&fdf);
-//	draw(&fdf);
-//	draw_image(fdf);
-	draw_qtrn(fdf);
-	mlx_loop(fdf->mlx_ptr);
-	//очистить fdf
+////	draw_image(fdf);
+	draw_qtrn(&fdf);
+	mlx_loop(fdf.mlx_ptr);
+//	//очистить fdf
 	return (0);
 }

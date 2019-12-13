@@ -16,7 +16,7 @@ static size_t	count_wrds(const char *tmp, char c)
 	return (count);
 }
 
-int 	check_filename(char *argv)
+int				check_filename(char *argv)
 {
 	int		end;
 
@@ -27,7 +27,7 @@ int 	check_filename(char *argv)
 	return (1);
 }
 
-int 	check_symb(char *line)
+int				check_symb(const char *line)
 {
 	size_t	i;
 
@@ -41,7 +41,7 @@ int 	check_symb(char *line)
 	return (1);
 }
 
-int		check_input(char *line, size_t *rows)
+int				check_input(char *line, size_t *rows)
 {
 	if (!*rows)
 		*rows = count_wrds(line, ' ');
