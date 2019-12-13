@@ -9,55 +9,48 @@ static void	set_zoom(t_point **start, t_point **end, t_fdf *fdf)
 	(*end)->c = fdf->space * (*end)->c;
 }
 
-static void	set_shift(t_point **start, t_point **end, t_fdf *fdf)
+static void	set_delta(double *dx, double *dy, t_qtrn **start, t_qtrn **end)
 {
-	(*start)->r += fdf->shift_y;
-	(*start)->c += fdf->shift_x;
-	(*end)->r += fdf->shift_y;
-	(*end)->c += fdf->shift_x;
-}
-
-static void iso(t_point *point, int z)
-{
-	double	angle;
-	double	r_angle;
-
-	angle = 0;
-	r_angle = angle * M_PI / 180;
-	point->r = (float)(point->r * cos(r_angle) + point->c * sin(r_angle));
-	point->c = (angle > 0) ? (float)(-point->r * sin(r_angle) + point->c * cos
-			(r_angle) -	z * 20) : (float)(-point->r * sin(r_angle) + point->c *
-					cos(r_angle));
-}
-
-void	bresenham(t_point *start, t_point *end, t_fdf *fdf)
-{
-	float	dx;
-	float	dy;
-	int 	max;
-	int 	z_start;
-	int 	z_end;
-
-	z_start = fdf->z[(int)start->r][(int)start->c];
-	z_end = fdf->z[(int)end->r][(int)end->c];
-	set_zoom(&start, &end, fdf);
-//	fdf->color = set_color(z_start, z_end);
-	fdf->color = (z_start || z_end) ? 0x00AA00AA : 0x00AAAA00;
-	iso(start, z_start);
-	iso(end, z_end);
-	set_shift(&start, &end, fdf);
-	dx = end->c - start->c;
-	dy = end->r - start->r;
-	max = MAX(abs((int)dx), abs((int)dy));
-	dx /= (float)max;
-	dy /= (float)max;
-	while ((int)(start->c - end->c) || (int)(start->r - end->r))
+	if (fabs((*start)->x - (*end)->x) > fabs((*start)->y - (*end)->y))
 	{
-		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, start->c, start->r,
-		fdf->color);
-		start->c += dx;
-		start->r += dy;
+		*dx = ((*start)->x < (*end)->x) ? 1.0 : -1.0;
+		*dy = ((*start)->y < (*end)->y) ? (fabs((*start)->y - (*end)->y) /
+			(fabs((*start)->x - (*end)->x))) : (-1 * fabs((*start)->y -
+				(*end)->y) / (fabs((*start)->x - (*end)->x)));
 	}
-	free(start);
-	free(end);
+	else
+	{
+		*dy = ((*start)->y < (*end)->y) ? 1.0 : -1.0;
+		*dx = ((*start)->x < (*end)->x) ? (fabs((*start)->x - (*end)->x) /
+		   (fabs((*start)->y - (*end)->y))) : (-1 * fabs((*start)->x -
+		   		(*end)->x) / (fabs((*start)->y - (*end)->y)));
+	}
+}
+
+static void	set_shift(t_qtrn **start, t_qtrn **end, int shift_x, int shift_y)
+{
+	(*start)->x += shift_x;
+	(*end)->x += shift_x;
+	(*start)->y += shift_y;
+	(*end)->y += shift_y;
+}
+
+void	bresenham(t_qtrn **start, t_qtrn **end, t_fdf *fdf)
+{
+	double	dx;
+	double	dy;
+
+	set_shift(start, end, fdf->shift_x, fdf->shift_y);
+	set_delta(&dx, &dy, start, end);
+	while (fabs((*start)->x - (*end)->x) >= 0.5 || fabs((*start)->y - (*end)
+			->y) >= 0.5)
+	{
+		// условие означает, что, если между точками есть разница при
+		// округлении, то мы будем отрисовывать точку. округление, как в
+		// математике.
+		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round((*start)->x),
+					  (int)round((*start)->y), fdf->color);
+		(*start)->x += dx;
+		(*start)->y += dy;
+	}
 }

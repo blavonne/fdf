@@ -103,7 +103,7 @@ int			read_map(char *argv, t_fdf **coords)
 
 	cols = 0;
 	fd = open(argv, O_RDONLY);
-	if (!check_filename(argv) || !create_map(&map))
+	if (fd < 0 || !check_filename(argv) || !create_map(&map))
 		return (0);
 	while (get_next_line(fd, &line) > 0)
 	{

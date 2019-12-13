@@ -81,7 +81,7 @@ int						set_coords(t_map *map, t_fdf **coords, int rows);
 int 					check_filename(char *argv);
 int 					check_input(char *line, size_t *rows);
 int 					check_symb(char *line);
-void					bresenham(t_point *start, t_point *end, t_fdf *fdf);
+void					bresenham(t_qtrn **start, t_qtrn **end, t_fdf *fdf);
 void					draw(t_fdf **fdf);
 void					draw_image(t_fdf **fdf);
 int						draw_qtrn(t_fdf *fdf);
@@ -95,7 +95,6 @@ int						mpress(int button, int x, int y, void *param);
 int						mrelease(int button, int x, int y, void *param);
 int						mmove(int x, int y, void *param);
 int						kpress(int key, t_fdf **fdf);
-void					bresenham(t_point *start, t_point *end, t_fdf *fdf);
 void					draw(t_fdf **fdf);
 void					setcntrls(t_fdf **fdf);
 void					zoom(int key, t_fdf **fdf);
@@ -108,5 +107,6 @@ t_point					project(t_point p, t_fdf *fdf);
 static void				rot_z(int *y, int *x, double gm);
 static void				rot_y(int *x, int *z, double bt);
 static void				rot_x(int *y, int *z, double al);
+t_qtrn 					*quaterni(int angle, float x, float y, int z);
 
 #endif

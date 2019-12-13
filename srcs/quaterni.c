@@ -1,7 +1,9 @@
 #include "fdf.h"
-#define MAX(a, b) a > b ? a : b
 
-t_qtrn	*create_qtrn(float x, float y, int z, int angle)
+/*
+ * создание кватерниона - оси вращения
+ */
+static t_qtrn	*create_qtrn(float x, float y, int z, int angle)
 {
 	t_qtrn	*new;
 	double	r_angle;
@@ -17,7 +19,10 @@ t_qtrn	*create_qtrn(float x, float y, int z, int angle)
 	return (new);
 }
 
-t_qtrn	*reverse_qtrn(t_qtrn *prev)
+/*
+ * создание обратного кватерниона и нормировка
+ */
+static t_qtrn	*reverse_qtrn(t_qtrn *prev)
 {
 	t_qtrn	*new;
 	double	modulo;
@@ -33,7 +38,10 @@ t_qtrn	*reverse_qtrn(t_qtrn *prev)
 	return (new);
 }
 
-t_qtrn	*create_vector(float x, float y, int z)
+/*
+ * создание чистого кватерниона-вектора из заданной точки
+ */
+static t_qtrn	*create_vector(float x, float y, int z)
 {
 	t_qtrn	*new;
 
@@ -47,7 +55,10 @@ t_qtrn	*create_vector(float x, float y, int z)
 	return (new);
 }
 
-t_qtrn	*qtrn_multiply(t_qtrn **qtrn, t_qtrn **vector)
+/*
+ * перемножение кватернионов
+ */
+static t_qtrn	*qtrn_multiply(t_qtrn **qtrn, t_qtrn **vector)
 {
 	t_qtrn	*res;
 
@@ -64,12 +75,15 @@ t_qtrn	*qtrn_multiply(t_qtrn **qtrn, t_qtrn **vector)
 	return (res);
 }
 
-t_qtrn 	*rotation(t_qtrn **napravlenie, t_qtrn **vector, t_qtrn **reversed)
+/*
+ * поворот точки в пространстве
+ */
+static t_qtrn 	*rotation(t_qtrn **os, t_qtrn **vector, t_qtrn **reversed)
 {
 	t_qtrn	*tmp;
 	t_qtrn	*res;
 
-	if (!(tmp = qtrn_multiply(napravlenie, vector)))
+	if (!(tmp = qtrn_multiply(os, vector)))
 		return NULL;
 	if (!(res = qtrn_multiply(&tmp, reversed)))
 		return NULL;
@@ -99,7 +113,6 @@ t_qtrn 	*quaterni(int angle, float x, float y, int z)
 		free(vector);
 		return NULL;
 	}
-	//создать новый кватернион,
 	if (!(res = rotation(&os, &vector, &os_rev)))
 	{
 		free(os);
@@ -108,99 +121,4 @@ t_qtrn 	*quaterni(int angle, float x, float y, int z)
 		return NULL;
 	}
 	return (res);
-}
-
-static void	set_delta(double *dx, double *dy, t_qtrn **start, t_qtrn **end)
-{
-	if (fabs((*start)->x - (*end)->x) > fabs((*start)->y - (*end)->y))
-	{
-		*dx = ((*start)->x < (*end)->x) ? 1.0 : -1.0;
-		*dy = ((*start)->y < (*end)->y) ? (fabs((*start)->y - (*end)->y) /
-			  (fabs((*start)->x - (*end)->x))) : (-1 * fabs((*start)->y -
-			  		(*end)->y) / (fabs((*start)->x - (*end)->x)));
-	}
-	else
-	{
-		*dy = ((*start)->y < (*end)->y) ? 1.0 : -1.0;
-		*dx = ((*start)->x < (*end)->x) ? (fabs((*start)->x - (*end)->x) /
-			  (fabs((*start)->y - (*end)->y))) : (-1 * fabs((*start)->x -
-			  		(*end)->x) / (fabs((*start)->y - (*end)->y)));
-	}
-}
-
-static void	set_shift(t_qtrn **start, t_qtrn **end, int shift_x, int shift_y)
-{
-	(*start)->x += shift_x;
-	(*end)->x += shift_x;
-	(*start)->y += shift_y;
-	(*end)->y += shift_y;
-}
-
-void	bresenham2(t_qtrn **start, t_qtrn **end, t_fdf *fdf)
-{
-	double	dx;
-	double	dy;
-
-	set_shift(start, end, fdf->shift_x, fdf->shift_y);
-	set_delta(&dx, &dy, start, end);
-	while (fabs((*start)->x - (*end)->x) >= 0.5 || fabs((*start)->y - (*end)
-	->y) >= 0.5)
-	{
-		//условие означает, что, если между точками есть разница при
-		// округлении, то мы будем отрисовывать точку. округление, как в
-		// математике.
-		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round((*start)->x),
-					  (int)round((*start)->y), fdf->color);
-		(*start)->x += dx;
-		(*start)->y += dy;
-	}
-}
-
-int		draw_qtrn(t_fdf *fdf)
-{
-	size_t	r;
-	size_t	c;
-	t_qtrn	*point;
-	t_qtrn	*point2;
-	int alpha;
-
-	point = NULL;
-	point2 = NULL;
-	r = 0;
-	alpha = 20;
-	while (r < fdf->rows)
-	{
-		c = 0;
-		while (c < fdf->cols)
-		{
-			if (c + 1 < fdf->cols)
-			{
-				point = quaterni(alpha, c * fdf->space, r * fdf->space,
-								 fdf->z[r][c] * fdf->space);
-				point2 = quaterni(alpha, (c + 1) * fdf->space, r * fdf->space,
-								  fdf->z[r][c + 1] * fdf->space);
-				if (!point || !point2)
-					return (0);
-				bresenham2(&point, &point2, fdf);
-				free(point);
-				free(point2);
-			}
-			if (r + 1 < fdf->rows)
-			{
-				point = quaterni(alpha, c * fdf->space, r * fdf->space,
-								 fdf->z[r][c] * fdf->space);
-				point2 = quaterni(alpha, c * fdf->space, (r + 1) * fdf->space,
-								  fdf->z[r + 1][c] * fdf->space);
-				if (!point || !point2)
-					return (0);
-				bresenham2(&point, &point2, fdf);
-				free(point);
-				free(point2);
-			}
-			fdf->color += 100;
-			c++;
-		}
-		r++;
-	}
-	return (1);
 }
