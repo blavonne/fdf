@@ -68,7 +68,9 @@ typedef struct			s_fdf
 	int 				shift_y; //shift from 0,0
 	int 				shift_x;
 	int 				color;
-	int					angle;
+	int					angle_x;
+	int					angle_y;
+	int					angle_z;
 	void				*mlx_ptr;
 	void				*win_ptr;
 	void				*img_ptr;

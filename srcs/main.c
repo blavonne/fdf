@@ -6,7 +6,7 @@
 /*   By: blavonne <blavonne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 19:33:03 by blavonne          #+#    #+#             */
-/*   Updated: 2019/12/14 04:24:07 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/14 05:10:59 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,38 @@
  * нажатая клавиша, которая сама определяется функцией млх кей хук
  */
 
-int 	deal_key(int key, t_fdf *fdf)
+/*
+ * клавиши разбиты на группы, чтобы не нагромождать код след. функции
+ */
+static int		what_key(int key)
+{
+	if (key == 53)
+		return (1);
+	if (key == NUM_PAD_PLUS || key == MAIN_PAD_PLUS	|| key == NUM_PAD_MINUS ||
+	key == MAIN_PAD_MINUS)
+		return (2);
+	if (key == ARROW_LEFT || key == ARROW_RIGHT || key == ARROW_UP || key ==
+	ARROW_DOWN)
+		return (3);
+	if (key == NUM_PAD_2 || key == MAIN_PAD_2 || key == NUM_PAD_8 ||
+		key == MAIN_PAD_8 || key == NUM_PAD_4 || key == MAIN_PAD_4 || key ==
+		NUM_PAD_6 || key == MAIN_PAD_6 || key == NUM_PAD_1 || key ==
+		MAIN_PAD_1 || key == NUM_PAD_3 || key == MAIN_PAD_3 || key ==
+		NUM_PAD_7 || key == MAIN_PAD_7 || key == NUM_PAD_9 || key == MAIN_PAD_9)
+		return (4);
+	return (0);
+}
+
+static int 	deal_key(int key, t_fdf *fdf)
 {
 	printf("%i ", key);
-	if (key == MAIN_PAD_ESC)
+	if (what_key(key) == 1)
 		exit(0);
-	if (key == NUM_PAD_PLUS || key == MAIN_PAD_PLUS
-		|| key == NUM_PAD_MINUS || key == MAIN_PAD_MINUS)
+	if (what_key(key) == 2)
 		zoom(key, fdf);
-	else if (key == ARROW_LEFT || key == ARROW_RIGHT
-			 || key == ARROW_UP || key == ARROW_DOWN)
+	else if (what_key(key) == 3)
 		move(key, fdf);
-	else if (key == NUM_PAD_2 || key == MAIN_PAD_2 || key == NUM_PAD_8 ||
-	key == MAIN_PAD_8)
+	else if (what_key(key) == 4)
 		rotate(key, fdf);
 	return (0);
 }

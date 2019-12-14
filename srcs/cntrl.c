@@ -6,7 +6,7 @@
 /*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 23:45:38 by jquincy           #+#    #+#             */
-/*   Updated: 2019/12/14 04:48:24 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/14 04:59:24 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,19 @@ void	rotate(int key, t_fdf *fdf)
 	(*fdf).color = 0xAAAA00;
 	printf("Rotate\n");
 	if (key == NUM_PAD_2 || key == MAIN_PAD_2)
-		fdf->angle -= 1;
+		fdf->angle_x -= 1;
 	else if (key == NUM_PAD_8 || key == MAIN_PAD_8)
-		fdf->angle += 1;
-//	else if (key == NUM_PAD_4 || key == MAIN_PAD_4)
-//		fdf->camera->bt -= 0.05;
-//	else if (key == NUM_PAD_6 || key == MAIN_PAD_6)
-//		fdf->camera->bt += 0.05;
-//	else if (key == NUM_PAD_1 || key == MAIN_PAD_1
-//		|| key == NUM_PAD_3 || key == MAIN_PAD_3)
-//		fdf->camera->gm += 0.05;
-//	else if (key == NUM_PAD_7 || key == MAIN_PAD_7
-//		|| key == NUM_PAD_9 || key == MAIN_PAD_9)
-//		fdf->camera->gm -= 0.05;
+		fdf->angle_x += 1;
+	else if (key == NUM_PAD_4 || key == MAIN_PAD_4)
+		fdf->angle_y -= 1;
+	else if (key == NUM_PAD_6 || key == MAIN_PAD_6)
+		fdf->angle_y += 1;
+	else if (key == NUM_PAD_1 || key == MAIN_PAD_1
+		|| key == NUM_PAD_3 || key == MAIN_PAD_3)
+		fdf->angle_z += 1;
+	else if (key == NUM_PAD_7 || key == MAIN_PAD_7
+		|| key == NUM_PAD_9 || key == MAIN_PAD_9)
+		fdf->angle_z -= 1;
 	draw_qtrn(fdf);
 //	draw;
 }

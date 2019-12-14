@@ -63,7 +63,9 @@ int			init_fdf(t_map *map, t_fdf *fdf, int cols)
 	(*fdf).shift_x = 250;
 	(*fdf).space = 40;
 	(*fdf).color = 0x00AAAA00;
-	(*fdf).angle = 30;
+	(*fdf).angle_x = 0;
+	(*fdf).angle_y = 0;
+	(*fdf).angle_z = 0;
 	if (!(*fdf).cols || !(*fdf).rows)
 		return (0);
 	(*fdf).img_ptr = NULL;
