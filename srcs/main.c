@@ -6,7 +6,7 @@
 /*   By: blavonne <blavonne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 19:33:03 by blavonne          #+#    #+#             */
-/*   Updated: 2019/12/14 04:23:35 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/14 04:24:07 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int 	deal_key(int key, t_fdf *fdf)
 	else if (key == ARROW_LEFT || key == ARROW_RIGHT
 			 || key == ARROW_UP || key == ARROW_DOWN)
 		move(key, fdf);
+	else if (key == NUM_PAD_2 || key == MAIN_PAD_2 || key == NUM_PAD_8 ||
+	key == MAIN_PAD_8)
+		rotate(key, fdf);
 	return (0);
 }
 

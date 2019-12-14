@@ -6,7 +6,7 @@
 /*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 23:45:38 by jquincy           #+#    #+#             */
-/*   Updated: 2019/12/14 04:19:02 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/14 04:48:24 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,16 @@ void	move(int key, t_fdf *fdf)
 //	draw_image(fdf);
 }
 
-//void	rotate(int key, t_fdf *fdf)
-//{
-//	if (key == NUM_PAD_2 || key == MAIN_PAD_2)
-//		fdf->camera->al += 0.05;
-//	else if (key == NUM_PAD_8 || key == MAIN_PAD_8)
-//		fdf->camera->al -= 0.05;
+void	rotate(int key, t_fdf *fdf)
+{
+	(*fdf).color = 0x000000;
+	draw_qtrn(fdf);
+	(*fdf).color = 0xAAAA00;
+	printf("Rotate\n");
+	if (key == NUM_PAD_2 || key == MAIN_PAD_2)
+		fdf->angle -= 1;
+	else if (key == NUM_PAD_8 || key == MAIN_PAD_8)
+		fdf->angle += 1;
 //	else if (key == NUM_PAD_4 || key == MAIN_PAD_4)
 //		fdf->camera->bt -= 0.05;
 //	else if (key == NUM_PAD_6 || key == MAIN_PAD_6)
@@ -66,8 +70,9 @@ void	move(int key, t_fdf *fdf)
 //	else if (key == NUM_PAD_7 || key == MAIN_PAD_7
 //		|| key == NUM_PAD_9 || key == MAIN_PAD_9)
 //		fdf->camera->gm -= 0.05;
+	draw_qtrn(fdf);
 //	draw;
-//}
+}
 
 //void	changez(int key, t_fdf *fdf)
 //{
