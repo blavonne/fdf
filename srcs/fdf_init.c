@@ -61,7 +61,7 @@ int			init_fdf(t_map *map, t_fdf *fdf, int cols)
 	(*fdf).rows = get_rows(map);
 	(*fdf).shift_y = 250;
 	(*fdf).shift_x = 250;
-	(*fdf).space = 50;
+	(*fdf).space = 45;
 	(*fdf).color = 0x00AAAA00;
 	(*fdf).angle = 30;
 	if (!(*fdf).cols || !(*fdf).rows)

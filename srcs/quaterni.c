@@ -79,7 +79,8 @@ t_qtrn 	quaterni(t_fdf *fdf, int r, int c)
 	t_qtrn	res;
 
 	os = create_qtrn(1, 0, 0, (*fdf).angle);
-	vector = create_vector(c * (*fdf).space, r * (*fdf).space, (*fdf).z[r][c]
+	vector = create_vector(c * (*fdf).space, r * (*fdf).space, (*fdf)
+	.z[r][c]
 	* (*fdf).space);
 	os_rev = reverse_qtrn(os);
 	res = qtrn_multiply(os, vector);

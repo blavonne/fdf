@@ -59,6 +59,7 @@ void	draw_qtrn(t_fdf *fdf)
 		c = 0;
 		while (c < fdf->cols)
 		{
+			bresenham(quaterni(fdf, r, c), quaterni(fdf, r, c), fdf);
 			if (c + 1 < fdf->cols)
 				bresenham(quaterni(fdf, r, c), quaterni(fdf, r, c + 1), fdf);
 			if (r + 1 < fdf->rows)
