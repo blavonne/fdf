@@ -6,40 +6,48 @@
 /*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 23:45:38 by jquincy           #+#    #+#             */
-/*   Updated: 2019/12/14 01:41:23 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/14 04:19:02 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	zoom(int key, t_fdf **fdf)
+void	zoom(int key, t_fdf *fdf)
 {
+	(*fdf).color = 0x000000;
+	draw_qtrn(fdf);
+	(*fdf).color = 0xAAAA00;
 	printf("Zoom\n");
 	if (key == MAIN_PAD_PLUS ||
 		key == NUM_PAD_PLUS ||
 		key == MOUSE_SCROLL_UP)
-		(*fdf)->space++;
+		(*fdf).space++;
 	else if (key == MAIN_PAD_MINUS ||
 			 key == NUM_PAD_MINUS ||
 			 key == MOUSE_SCROLL_DOWN)
-		(*fdf)->space--;
-	if ((*fdf)->space < 1)
-		(*fdf)->space = 1;
-	draw_image(*fdf);
+		(*fdf).space--;
+	if ((*fdf).space < 1)
+		(*fdf).space = 1;
+	draw_qtrn(fdf);
+//	draw_image(fdf);
 }
 
-void	move(int key, t_fdf **fdf)
+void	move(int key, t_fdf *fdf)
 {
+	(*fdf).color = 0x000000;
+	draw_qtrn(fdf);
+	(*fdf).color = 0xAAAA00;
 	printf("Move\n");
 	if (key == ARROW_LEFT)
-		(*fdf)->shift_x -= 10;
+		(*fdf).shift_x -= 10;
 	else if (key == ARROW_RIGHT)
-		(*fdf)->shift_x += 10;
+		(*fdf).shift_x += 10;
 	else if (key == ARROW_UP)
-		(*fdf)->shift_y -= 10;
+		(*fdf).shift_y -= 10;
 	else
-		(*fdf)->shift_y += 10;
-	draw_image(*fdf);
+		(*fdf).shift_y += 10;
+	draw_qtrn(fdf);
+//	draw_image(fdf);
 }
 
 //void	rotate(int key, t_fdf *fdf)

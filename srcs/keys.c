@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-int			kpress(int key, t_fdf **fdf)
+int			kpress(int key, t_fdf *fdf)
 {
 	if (key == MAIN_PAD_ESC)
 		exit(0);

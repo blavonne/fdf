@@ -20,7 +20,7 @@ int			mpress(int button, int x, int y, void *param)
 	(void)y;
 	fdf = (t_fdf *)param;
 	if (button == MOUSE_SCROLL_UP || button == MOUSE_SCROLL_DOWN)
-		zoom(button, &fdf);
+		zoom(button, fdf);
 	else if (button == MOUSE_LEFT_BUTTON)
 		fdf->mouse->is_pressed = true;
 	return (0);

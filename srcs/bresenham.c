@@ -15,11 +15,7 @@ static void	set_delta(double *dx, double *dy, t_qtrn *start, t_qtrn *end)
 	(*end).x = round((*end).x);
 	(*end).y = round((*end).y);
 	if ((*start).x == (*end).x && (*start).y == (*end).y)
-	{
-		*dx = 1;
-		*dy = 1;
 		return ;
-	}
 	if (fabs((*start).x - (*end).x) > fabs((*start).y - (*end).y))
 	{
 		*dx = ((*start).x <= (*end).x) ? 1.0 : -1.0;

@@ -64,7 +64,7 @@ void	draw_qtrn(t_fdf *fdf)
 				bresenham(quaterni(fdf, r, c), quaterni(fdf, r, c + 1), fdf);
 			if (r + 1 < fdf->rows)
 				bresenham(quaterni(fdf, r, c), quaterni(fdf, r + 1, c), fdf);
-			fdf->color += 100;
+//			fdf->color += 100;
 			c++;
 		}
 		r++;
