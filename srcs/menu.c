@@ -6,7 +6,7 @@
 /*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 18:06:52 by jquincy           #+#    #+#             */
-/*   Updated: 2019/12/09 18:49:55 by jquincy          ###   ########.fr       */
+/*   Updated: 2019/12/16 19:16:54 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,48 +16,31 @@
 void	print_menu(t_fdf *fdf)
 {
 	int		y;
-	int 	color1;
-	int 	color2;
-	int 	delta;
-
-	color1 = 0x00AAAA00;
-	color2 = 0x00AA00AA;
-	delta = (color1 - color2) / 1900;
+//	delta = (TEXT_COLOR - color2) / 1900; //delete
 
 	y = 0;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 65, y += 20, color1,
+	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 65, y += 20, TEXT_COLOR,
 			"How to Use");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 35, color1,
+	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 35, TEXT_COLOR,
 			"Zoom: Scroll or +/-");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, color1,
+	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, TEXT_COLOR,
 			"Move: Arrows");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, color1,
-			"Flatten: </>");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, color1,
-			"Rotate: Press & Move");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, color1,
+//	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, TEXT_COLOR,
+//			"Flatten: </>");
+//	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, TEXT_COLOR,
+//			"Rotate: Press & Move");
+	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, TEXT_COLOR,
 			"Rotate:");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, color1,
+	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, TEXT_COLOR,
 			"X-Axis - 2/8");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, color1,
+	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, TEXT_COLOR,
 			"Y-Axis - 4/6");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, color1,
+	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, TEXT_COLOR,
 			"Z-Axis - 1 (3)/7(9)");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, color1,
-			"Projection");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, color1,
-			"ISO: I Key");
-	color1 += delta;
-	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, color1,
-			"Parallel: P Key");
+//	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 15, y += 30, TEXT_COLOR,
+//			"Projection");
+//	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, TEXT_COLOR,
+//			"ISO: I Key");
+//	mlx_string_put((*fdf).mlx_ptr, (*fdf).win_ptr, 57, y += 25, TEXT_COLOR,
+//			"Parallel: P Key");
 }

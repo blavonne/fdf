@@ -68,6 +68,23 @@ static t_qtrn	qtrn_multiply(t_qtrn qtrn, t_qtrn vector)
 	return (res);
 }
 
+//void	set_sign(t_qtrn *res, t_fdf *fdf, int r, int c)
+//{
+//	int		x;
+//
+//	x = (c < round(fdf->cols * 0.5) ? 14 : 23);
+//	x = (r < round(fdf->rows * 0.5) ? x + 12 : x + 34);
+//	if (x == 14 + 12)
+//		res->y = -res->y;
+//	else if (x == 14 + 34)
+//		res->x = -res->x;
+//	else if (x == 23 + 34)
+//	{
+//		res->x = -res->x;
+//		res->y = -res->y;
+//	}
+//}
+
 /*
  * поворот точки в пространстве
  */
@@ -78,9 +95,10 @@ t_qtrn 	quaterni(t_fdf *fdf, int r, int c)
 	t_qtrn	os_rev;
 	t_qtrn	res;
 
+	vector = create_vector(c - (int)round(0.5 * fdf->cols),
+			   r - (int)round(0.5 * fdf->rows), (*fdf).z[abs(r)][abs(c)]);
+
 	os = create_qtrn(1, 0, 0, (*fdf).angle_x);
-	vector = create_vector(c * (*fdf).space, r * (*fdf).space,
-			(*fdf).z[r][c] * (*fdf).space);
 	os_rev = reverse_qtrn(os);
 	res = qtrn_multiply(os, vector);
 	res = qtrn_multiply(res, os_rev);

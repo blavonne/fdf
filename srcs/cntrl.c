@@ -6,7 +6,7 @@
 /*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 23:45:38 by jquincy           #+#    #+#             */
-/*   Updated: 2019/12/14 04:59:24 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/18 23:33:06 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	zoom(int key, t_fdf *fdf)
 	if ((*fdf).space < 1)
 		(*fdf).space = 1;
 	draw_qtrn(fdf);
-//	draw_image(fdf);
+//	draw_background(fdf);
 }
 
 void	move(int key, t_fdf *fdf)
@@ -47,12 +47,12 @@ void	move(int key, t_fdf *fdf)
 	else
 		(*fdf).shift_y += 10;
 	draw_qtrn(fdf);
-//	draw_image(fdf);
+//	draw_background(fdf);
 }
 
 void	rotate(int key, t_fdf *fdf)
 {
-	(*fdf).color = 0x000000;
+	(*fdf).color = 0x252520;
 	draw_qtrn(fdf);
 	(*fdf).color = 0xAAAA00;
 	printf("Rotate\n");

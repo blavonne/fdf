@@ -18,7 +18,7 @@
 //
 //	if (!(camera = (t_camera *)ft_memalloc(sizeof(t_camera))))
 //		return (NULL);
-//	camera->zoom = FT_MIN((IMG_WIDTH - WINDOW_WIDTH) / fdf->map->width / 2,
+//	camera->zoom = FT_MIN((IMG_WIDTH - WIN_W) / fdf->map->width / 2,
 //												IMG_HEIGHT / fdf->map->height / 2);
 //	camera->al = 0;
 //	camera->bt = 0;

@@ -1,12 +1,12 @@
 #include "fdf.h"
 
-//static void	set_zoom(t_point **start, t_point **end, t_fdf *fdf)
-//{
-//	(*start)->r = fdf->space * (*start)->r;
-//	(*start)->c = fdf->space * (*start)->c;
-//	(*end)->r = fdf->space * (*end)->r;
-//	(*end)->c = fdf->space * (*end)->c;
-//}
+static void	set_zoom(t_qtrn *start, t_qtrn *end, t_fdf *fdf)
+{
+	start->y = fdf->space * start->y;
+	start->x = fdf->space * start->x;
+	end->y = fdf->space * end->y;
+	end->x = fdf->space * end->x;
+}
 
 static void	set_delta(double *dx, double *dy, t_qtrn *start, t_qtrn *end)
 {
@@ -33,20 +33,36 @@ static void	set_delta(double *dx, double *dy, t_qtrn *start, t_qtrn *end)
 //	printf("dx %f, dy %f\n", *dx, *dy); //DELETE
 }
 
-static void	set_shift(t_qtrn *start, t_qtrn *end, int shift_x, int shift_y)
+static void	set_shift(t_qtrn *start, t_qtrn *end, t_fdf *fdf)
 {
-	(*start).x += shift_x;
-	(*end).x += shift_x;
-	(*start).y += shift_y;
-	(*end).y += shift_y;
+	(*start).x += fdf->shift_x;
+	(*end).x += fdf->shift_x;
+	(*start).y += fdf->shift_y;
+	(*end).y += fdf->shift_y;
+//	(*start).x += fdf->shift_x - fdf->space * round(0.5 * fdf->cols);
+//	(*end).x += fdf->shift_x - fdf->space * round(0.5 * fdf->cols);
+//	(*start).y += fdf->shift_y - fdf->space * round(0.5 * fdf->rows);
+//	(*end).y += fdf->shift_y - fdf->space * round(0.5 * fdf->rows);
 }
 
-void	bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf)
+int		get_color(double dy, int z, t_fdf *fdf)
+{
+	if (z && dy)
+		fdf->z_color += 100;
+	else if (z == fdf->max_z && !dy)
+		fdf->z_color = 0x00AA00;
+	if (!z)
+		return (fdf->color);
+	return (fdf->z_color);
+}
+
+void	bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, int z)
 {
 	double	dx;
 	double	dy;
 
-	set_shift(&start, &end, fdf->shift_x, fdf->shift_y);
+	set_zoom(&start, &end, fdf);
+	set_shift(&start, &end, fdf);
 	set_delta(&dx, &dy, &start, &end);
 	if (start.x == end.x && start.y == end.y)
 		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round(start.x),
@@ -58,6 +74,8 @@ void	bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf)
 		// математике.
 		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round(start.x),
 					  (int)round(start.y), fdf->color);
+//		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round(start.x),
+//					  (int)round(start.y), get_color(dy, z, fdf));
 		start.x += dx;
 		start.y += dy;
 	}

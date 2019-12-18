@@ -39,7 +39,9 @@ static void	fill_z(t_fdf *fdf, t_map *map)
 	int		r;
 	int		c;
 	t_map	*tmp;
+	int 	max;
 
+	max = 0;
 	tmp = map;
 	r = 0;
 	while (r < (*fdf).rows)
@@ -48,34 +50,49 @@ static void	fill_z(t_fdf *fdf, t_map *map)
 		while (c < (*fdf).cols)
 		{
 			(*fdf).z[r][c] = ft_atoi(tmp->line[c]);
+			if ((*fdf).z[r][c] > max)
+				max = (*fdf).z[r][c];
 			c++;
 		}
 		tmp = tmp->next;
 		r++;
 	}
+	(*fdf).max_z = max;
+}
+
+void		image_init(t_image *img, t_fdf *fdf)
+{
+	img->bps = BPS;
+	img->size_line = WIN_W * (int)sizeof(int);
+	img->endian = ENDIAN;
+	img->image = NULL;
+	img->img_ptr = NULL;
 }
 
 int			init_fdf(t_map *map, t_fdf *fdf, int cols)
 {
 	(*fdf).cols = cols;
 	(*fdf).rows = get_rows(map);
-	(*fdf).shift_y = 250;
-	(*fdf).shift_x = 250;
+	(*fdf).shift_y = (int)round(0.5 * WIN_H);
+	(*fdf).shift_x = (int)round(0.5 * WIN_W);
 	(*fdf).space = 40;
 	(*fdf).color = 0x00AAAA00;
-	(*fdf).angle_x = 0;
+	(*fdf).angle_x = 30;
 	(*fdf).angle_y = 0;
 	(*fdf).angle_z = 0;
+	fdf->z_color = 0xAAAA00;
+	(*fdf).new_angle.a = '0';
+	(*fdf).new_angle.angle = '0';
 	if (!(*fdf).cols || !(*fdf).rows)
 		return (0);
-	(*fdf).img_ptr = NULL;
+	image_init(&(*fdf).image, fdf);
 	if (!((*fdf).z = create_z((*fdf).cols, (*fdf).rows)))
 		return (0);
 	fill_z(fdf, map);
 	if (!((*fdf).mlx_ptr = mlx_init()))
 		return (0);
-	if (!((*fdf).win_ptr = mlx_new_window(fdf->mlx_ptr, WINDOW_WIDTH,
-			WINDOW_HEIGHT, "I NEED A DOCTOR")))
+	if (!((*fdf).win_ptr = mlx_new_window(fdf->mlx_ptr, WIN_W, WIN_H, "I NEED"
+																   " A DOCTOR")))
 		return (0);
 	return (1);
 }

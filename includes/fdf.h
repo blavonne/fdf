@@ -1,9 +1,7 @@
 #ifndef FDF_FDF_H
 # define FDF_FDF_H
-# define IMG_WIDTH 100
-# define IMG_HEIGHT 400
-# define WINDOW_WIDTH 1280
-# define WINDOW_HEIGHT 940
+# define WIN_W 1280
+# define WIN_H 940
 
 # include "libft.h"
 # include "mlx.h"
@@ -12,6 +10,7 @@
 # include <math.h>
 # include "keysmac.h"
 # include "quaterni.h"
+# include "color.h"
 # include <stdio.h> //DELETE THIS
 
 typedef enum
@@ -59,6 +58,21 @@ typedef struct			s_camera
 	int					y_offs;
 }						t_camera;
 
+typedef struct			s_image
+{
+	int					endian;
+	int					size_line;
+	int					bps;
+	int					*image;
+	void				*img_ptr;
+}						t_image;
+
+typedef struct			s_rotation
+{
+	char				a;
+	int 				angle;
+}						t_rotation;
+
 typedef struct			s_fdf
 {
 	int 				cols; // os OX
@@ -67,16 +81,18 @@ typedef struct			s_fdf
 	int					space; //ZOOM
 	int 				shift_y; //shift from 0,0
 	int 				shift_x;
+	int					max_z;
 	int 				color;
+	int 				z_color;
 	int					angle_x;
 	int					angle_y;
 	int					angle_z;
 	void				*mlx_ptr;
 	void				*win_ptr;
-	void				*img_ptr;
+	t_rotation			new_angle;
+	t_image				image;
 	t_camera			*camera;
 	t_mouse				*mouse;
-
 }						t_fdf;
 
 int						read_and_init(char *argv, t_fdf *fdf);
@@ -84,9 +100,10 @@ int						init_fdf(t_map *map, t_fdf *fdf, int cols);
 int 					check_filename(char *argv);
 int 					check_input(char *line, int *rows);
 int 					check_symb(const char *line);
-void					bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf);
-int						draw_image(t_fdf *fdf);
+void					bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, int z);
+void					draw_background(t_fdf *fdf);
 void					draw_qtrn(t_fdf *fdf);
+int						draw_image(t_fdf *fdf);
 int						ftclose(void *param);
 int						mpress(int button, int x, int y, void *param);
 int						mrelease(int button, int x, int y, void *param);
