@@ -6,7 +6,7 @@
 /*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 23:45:38 by jquincy           #+#    #+#             */
-/*   Updated: 2019/12/18 23:33:06 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/20 17:30:27 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	zoom(int key, t_fdf *fdf)
 {
-	(*fdf).color = 0x000000;
-	draw_qtrn(fdf);
-	(*fdf).color = 0xAAAA00;
 	printf("Zoom\n");
 	if (key == MAIN_PAD_PLUS ||
 		key == NUM_PAD_PLUS ||
@@ -28,15 +25,11 @@ void	zoom(int key, t_fdf *fdf)
 		(*fdf).space--;
 	if ((*fdf).space < 1)
 		(*fdf).space = 1;
-	draw_qtrn(fdf);
-//	draw_background(fdf);
+	draw_image(fdf);
 }
 
 void	move(int key, t_fdf *fdf)
 {
-	(*fdf).color = 0x000000;
-	draw_qtrn(fdf);
-	(*fdf).color = 0xAAAA00;
 	printf("Move\n");
 	if (key == ARROW_LEFT)
 		(*fdf).shift_x -= 10;
@@ -46,15 +39,12 @@ void	move(int key, t_fdf *fdf)
 		(*fdf).shift_y -= 10;
 	else
 		(*fdf).shift_y += 10;
-	draw_qtrn(fdf);
-//	draw_background(fdf);
+//	draw_qtrn(fdf);
+	draw_image(fdf);
 }
 
 void	rotate(int key, t_fdf *fdf)
 {
-	(*fdf).color = 0x252520;
-	draw_qtrn(fdf);
-	(*fdf).color = 0xAAAA00;
 	printf("Rotate\n");
 	if (key == NUM_PAD_2 || key == MAIN_PAD_2)
 		fdf->angle_x -= 1;
@@ -70,8 +60,8 @@ void	rotate(int key, t_fdf *fdf)
 	else if (key == NUM_PAD_7 || key == MAIN_PAD_7
 		|| key == NUM_PAD_9 || key == MAIN_PAD_9)
 		fdf->angle_z -= 1;
-	draw_qtrn(fdf);
-//	draw;
+//	draw_qtrn(fdf);
+	draw_image(fdf);
 }
 
 //void	changez(int key, t_fdf *fdf)

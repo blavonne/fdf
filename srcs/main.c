@@ -6,7 +6,7 @@
 /*   By: blavonne <blavonne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 19:33:03 by blavonne          #+#    #+#             */
-/*   Updated: 2019/12/18 23:45:03 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/20 17:37:26 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ int main(int argc, char **argv)
 		ft_putstr_fd("Input reading error.\nusage: ./fdf filename.fdf\n", 2);
 		exit(0);
 	}
-	mlx_key_hook(fdf.win_ptr, deal_key, &fdf);
+//	mlx_key_hook(fdf.win_ptr, deal_key, &fdf);
+	mlx_hook(fdf.win_ptr, 2, 0, deal_key, &fdf);
 	draw_image(&fdf);
-	print_menu(&fdf);
-	draw_qtrn(&fdf);
+//	draw_qtrn(&fdf);
 	mlx_loop(fdf.mlx_ptr);
 //	//очистить fdf
 	return (0);
