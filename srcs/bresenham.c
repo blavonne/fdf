@@ -65,12 +65,12 @@ void	bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, int z)
 	set_shift(&start, &end, fdf);
 	set_delta(&dx, &dy, &start, &end);
 	if (start.x == end.x && start.y == end.y && (int)round(start.x) >= 0 &&
-	(int)round(start.x) < WIN_W && (int)round(start.y) >= 0 && (int)round(start.y) < WIN_H)
+		(int)round(start.x) < WIN_W && (int)round(start.y) >= 0 &&
+			(int)round(start.y) < WIN_H)
 		fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W] =
-				fdf->color;
-	while ((fabs(start.x - end.x) > 0.5 || fabs(start.y - end.y) > 0.5) &&
-			(int)round(start.x) >= 0 && (int)round(start.x) < WIN_W &&
-			(int)round(start.y) >= 0 && (int)round(start.y) < WIN_H)
+		((int)round(start.x) + (int)round(start.y) * WIN_W % WIN_W < MENU_W) ?
+		MENU_COLOR : fdf->color;
+	while ((fabs(start.x - end.x) > 0.5 || fabs(start.y - end.y) > 0.5))
 	{
 		//переставить условие ниже
 		// условие означает, что, если между точками есть разница при
@@ -78,8 +78,12 @@ void	bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, int z)
 		// математике.
 //		fdf->image.image[(int)round(start.x) + (int)round(start.y) *
 //			(int)fdf->cols * (int)fdf->space] = fdf->color;
-		fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W] =
-				fdf->color;
+		if ((int)round(start.x) >= 0 && (int)round(start.x) < WIN_W &&
+			(int)round(start.y) >= 0 && (int)round(start.y) < WIN_H)
+			fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W]
+			= ((int)round(start.x) + (int)round(start.y) * WIN_W % WIN_W <
+					MENU_W) ?
+				MENU_COLOR : fdf->color;
 //		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round(start.x),
 //					  (int)round(start.y), fdf->color);
 //		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round(start.x),

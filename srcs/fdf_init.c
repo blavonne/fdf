@@ -74,7 +74,7 @@ int			init_fdf(t_map *map, t_fdf *fdf, int cols)
 	(*fdf).cols = cols;
 	(*fdf).rows = get_rows(map);
 	(*fdf).shift_y = (int)round(0.5 * WIN_H);
-	(*fdf).shift_x = (int)round(0.5 * WIN_W);
+	(*fdf).shift_x = (int)round(0.5 * (WIN_W + MENU_W));
 	(*fdf).space = 40;
 	(*fdf).color = 0x00AAAA00;
 	(*fdf).angle_x = 30;

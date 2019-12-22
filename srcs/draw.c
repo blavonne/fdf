@@ -7,7 +7,7 @@ void	draw_background(t_fdf *fdf)
 	i = 0;
 	while (i < WIN_W * WIN_H)
 	{
-		(*fdf).image.image[i] = (i % WIN_W < 256) ? MENU_COLOR : BACKGROUND;
+		(*fdf).image.image[i] = (i % WIN_W < MENU_W) ? MENU_COLOR : BACKGROUND;
 		i++;
 	}
 }
@@ -46,5 +46,6 @@ int 	draw_image(t_fdf *fdf)
 	draw_qtrn(fdf);
 	mlx_put_image_to_window((*fdf).mlx_ptr, (*fdf).win_ptr, (*fdf).image
 			.img_ptr,0, 0);
+	print_menu(fdf);
 	return (1);
 }

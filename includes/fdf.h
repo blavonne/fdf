@@ -2,6 +2,7 @@
 # define FDF_FDF_H
 # define WIN_W 1280
 # define WIN_H 940
+# define MENU_W 256
 
 # include "libft.h"
 # include "mlx.h"
