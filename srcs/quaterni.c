@@ -38,7 +38,7 @@ static t_qtrn	reverse_qtrn(t_qtrn prev)
 /*
  * создание чистого кватерниона-вектора из заданной точки
  */
-static t_qtrn	create_vector(int x, int y, int z)
+t_qtrn	create_vector(int x, int y, int z)
 {
 	t_qtrn	new;
 
@@ -97,7 +97,6 @@ t_qtrn 	quaterni(t_fdf *fdf, int r, int c)
 
 	vector = create_vector(c - (int)round(0.5 * fdf->cols),
 			   r - (int)round(0.5 * fdf->rows), (*fdf).z[abs(r)][abs(c)]);
-
 	os = create_qtrn(1, 0, 0, (*fdf).angle_x);
 	os_rev = reverse_qtrn(os);
 	res = qtrn_multiply(os, vector);
@@ -112,5 +111,6 @@ t_qtrn 	quaterni(t_fdf *fdf, int r, int c)
 	os_rev = reverse_qtrn(os);
 	res = qtrn_multiply(os, res);
 	res = qtrn_multiply(res, os_rev);
+	res.color = fdf->color;
 	return (res);
 }

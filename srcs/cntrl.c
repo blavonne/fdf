@@ -6,7 +6,7 @@
 /*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 23:45:38 by jquincy           #+#    #+#             */
-/*   Updated: 2019/12/20 17:30:27 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/28 23:32:21 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,41 @@ void	rotate(int key, t_fdf *fdf)
 	draw_image(fdf);
 }
 
-//void	changez(int key, t_fdf *fdf)
-//{
-//	if (key == MAIN_PAD_LESS)
-//		fdf->camera->z_div -= 0.1;
-//	else if (key == MAIN_PAD_MORE)
-//		fdf->camera->z_div += 0.1;
-//	if (fdf->camera->z_div < 0.1)
-//		fdf->camera->z_div = 0.1;
-//	else if (fdf->camera->z_div > 10)
-//		fdf->camera->z_div = 10;
-//	//draw;
-//}
+void	changez(int key, t_fdf *fdf)
+{
+    int             c;
+    int             r;
+
+    printf("ChangeZ\n");
+    c = 0;
+	if (key == MAIN_PAD_LESS)
+    {
+	    while (c < fdf->cols)
+        {
+	        r = 0;
+	        while (r < fdf->rows)
+            {
+	            fdf->incidence_matrix[r][c] ? fdf->z[r][c]-- : 1;
+	            r++;
+            }
+	        c++;
+        }
+    }
+	else if (key == MAIN_PAD_MORE)
+    {
+        while (c < fdf->cols)
+        {
+            r = 0;
+            while (r < fdf->rows)
+            {
+                fdf->incidence_matrix[r][c] ? fdf->z[r][c]++ : 1;
+                r++;
+            }
+            c++;
+        }
+    }
+    draw_image(fdf);
+}
 
 //void	change_projection(int key, t_fdf *fdf)
 //{

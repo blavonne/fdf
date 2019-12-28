@@ -17,7 +17,7 @@ static int	get_rows(t_map *map)
 	return (i);
 }
 
-static int	**create_z(int cols, int rows)
+static int	**create_matrix(int cols, int rows)
 {
 	int 	**z;
 	int		i;
@@ -60,13 +60,31 @@ static void	fill_z(t_fdf *fdf, t_map *map)
 	(*fdf).max_z = max;
 }
 
-void		image_init(t_image *img, t_fdf *fdf)
+static void		image_init(t_image *img)
 {
 	img->bps = BPS;
 	img->size_line = WIN_W * (int)sizeof(int);
 	img->endian = ENDIAN;
 	img->image = NULL;
 	img->img_ptr = NULL;
+}
+
+static void fill_incidence(t_fdf *fdf)
+{
+    int     c;
+    int     r;
+
+    c = 0;
+    while (c < fdf->cols)
+    {
+        r = 0;
+        while (r < fdf->rows)
+        {
+            fdf->incidence_matrix[r][c] = (fdf->z[r][c] != 0) ? 1 : 0;
+            r++;
+        }
+        c++;
+    }
 }
 
 int			init_fdf(t_map *map, t_fdf *fdf, int cols)
@@ -80,15 +98,17 @@ int			init_fdf(t_map *map, t_fdf *fdf, int cols)
 	(*fdf).angle_x = 30;
 	(*fdf).angle_y = 0;
 	(*fdf).angle_z = 0;
-	fdf->z_color = 0xAAAA00;
 	(*fdf).new_angle.a = '0';
 	(*fdf).new_angle.angle = '0';
 	if (!(*fdf).cols || !(*fdf).rows)
 		return (0);
-	image_init(&(*fdf).image, fdf);
-	if (!((*fdf).z = create_z((*fdf).cols, (*fdf).rows)))
+	image_init(&(*fdf).image);
+	if (!((*fdf).z = create_matrix((*fdf).cols, (*fdf).rows)))
 		return (0);
 	fill_z(fdf, map);
+    if (!((*fdf).incidence_matrix = create_matrix((*fdf).cols, (*fdf).rows)))
+        return (0);
+    fill_incidence(fdf);
 	if (!((*fdf).mlx_ptr = mlx_init()))
 		return (0);
 	if (!((*fdf).win_ptr = mlx_new_window(fdf->mlx_ptr, WIN_W, WIN_H, "I NEED"

@@ -45,49 +45,34 @@ static void	set_shift(t_qtrn *start, t_qtrn *end, t_fdf *fdf)
 //	(*end).y += fdf->shift_y - fdf->space * round(0.5 * fdf->rows);
 }
 
-int		get_color(double dy, int z, t_fdf *fdf)
-{
-	if (z && dy)
-		fdf->z_color += 100;
-	else if (z == fdf->max_z && !dy)
-		fdf->z_color = 0x00AA00;
-	if (!z)
-		return (fdf->color);
-	return (fdf->z_color);
-}
-
-void	bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, int z)
+void	bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, t_qtrn z)
 {
 	double	dx;
 	double	dy;
+	int		z_color;
 
 	set_zoom(&start, &end, fdf);
-	set_shift(&start, &end, fdf);
 	set_delta(&dx, &dy, &start, &end);
+    set_shift(&start, &end, fdf);
+	z_color = (z.x || z.y) ? Z_COLOR : IMAGE_COLOR;
+	z_color = (z.x == z.y && z.x == fdf->max_z) ? Z_MAX : z_color;
 	if (start.x == end.x && start.y == end.y && (int)round(start.x) >= 0 &&
 		(int)round(start.x) < WIN_W && (int)round(start.y) >= 0 &&
 			(int)round(start.y) < WIN_H)
-		fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W] =
-		((int)round(start.x) + (int)round(start.y) * WIN_W % WIN_W < MENU_W) ?
-		MENU_COLOR : fdf->color;
+        fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W]
+                = ((int)round(start.x) + (int)round(start.y) * WIN_W % WIN_W <
+                   MENU_W) ? MENU_COLOR : z_color;
 	while ((fabs(start.x - end.x) > 0.5 || fabs(start.y - end.y) > 0.5))
 	{
 		//переставить условие ниже
 		// условие означает, что, если между точками есть разница при
 		// округлении, то мы будем отрисовывать точку. округление, как в
 		// математике.
-//		fdf->image.image[(int)round(start.x) + (int)round(start.y) *
-//			(int)fdf->cols * (int)fdf->space] = fdf->color;
-		if ((int)round(start.x) >= 0 && (int)round(start.x) < WIN_W &&
-			(int)round(start.y) >= 0 && (int)round(start.y) < WIN_H)
-			fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W]
-			= ((int)round(start.x) + (int)round(start.y) * WIN_W % WIN_W <
-					MENU_W) ?
-				MENU_COLOR : fdf->color;
-//		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round(start.x),
-//					  (int)round(start.y), fdf->color);
-//		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, (int)round(start.x),
-//					  (int)round(start.y), get_color(dy, z, fdf));
+        if ((int)round(start.x) >= 0 && (int)round(start.x) < WIN_W &&
+            (int)round(start.y) >= 0 && (int)round(start.y) < WIN_H)
+            fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W]
+                    = ((int)round(start.x) + (int)round(start.y) * WIN_W % WIN_W <
+                       MENU_W) ? MENU_COLOR : z_color;
 		start.x += dx;
 		start.y += dy;
 	}

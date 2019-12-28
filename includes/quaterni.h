@@ -8,6 +8,7 @@ typedef struct s_quaternion
 	double	x;
 	double 	y;
 	double 	z;
+	int 	color;
 }				t_qtrn;
 
 #endif

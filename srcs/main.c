@@ -6,7 +6,7 @@
 /*   By: blavonne <blavonne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 19:33:03 by blavonne          #+#    #+#             */
-/*   Updated: 2019/12/20 17:37:26 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/28 22:55:47 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int		what_key(int key)
 	key == MAIN_PAD_MINUS)
 		return (2);
 	if (key == ARROW_LEFT || key == ARROW_RIGHT || key == ARROW_UP || key ==
-	ARROW_DOWN)
+	ARROW_DOWN || key == MOUSE_SCROLL_UP || key == MOUSE_SCROLL_DOWN)
 		return (3);
 	if (key == NUM_PAD_2 || key == MAIN_PAD_2 || key == NUM_PAD_8 ||
 		key == MAIN_PAD_8 || key == NUM_PAD_4 || key == MAIN_PAD_4 || key ==
@@ -44,7 +44,18 @@ static int		what_key(int key)
 		MAIN_PAD_1 || key == NUM_PAD_3 || key == MAIN_PAD_3 || key ==
 		NUM_PAD_7 || key == MAIN_PAD_7 || key == NUM_PAD_9 || key == MAIN_PAD_9)
 		return (4);
+	if (key == MAIN_PAD_LESS || key == MAIN_PAD_MORE)
+	    return (5);
 	return (0);
+}
+
+static int	mouse_press(int button, int x, int y, t_fdf *fdf)
+{
+	x = 1;
+	y = 1;
+	if (what_key(button) == 3)
+		zoom(button, fdf);
+	return (1);
 }
 
 static int 	deal_key(int key, t_fdf *fdf)
@@ -58,7 +69,9 @@ static int 	deal_key(int key, t_fdf *fdf)
 		move(key, fdf);
 	else if (what_key(key) == 4)
 		rotate(key, fdf);
-	return (0);
+	else if (what_key(key) == 5)
+        changez(key, fdf);
+	return (1);
 }
 
 int main(int argc, char **argv)
@@ -70,11 +83,9 @@ int main(int argc, char **argv)
 		ft_putstr_fd("Input reading error.\nusage: ./fdf filename.fdf\n", 2);
 		exit(0);
 	}
-//	mlx_key_hook(fdf.win_ptr, deal_key, &fdf);
 	mlx_hook(fdf.win_ptr, 2, 0, deal_key, &fdf);
+	mlx_hook(fdf.win_ptr, 4, 0, mouse_press, &fdf);
 	draw_image(&fdf);
-//	draw_qtrn(&fdf);
 	mlx_loop(fdf.mlx_ptr);
-//	//очистить fdf
 	return (0);
 }

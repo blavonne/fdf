@@ -79,12 +79,12 @@ typedef struct			s_fdf
 	int 				cols; // os OX
 	int 				rows; // os OY
 	int 				**z; // os OZ[x][y]
+	int                 **incidence_matrix;
 	int					space; //ZOOM
 	int 				shift_y; //shift from 0,0
 	int 				shift_x;
 	int					max_z;
 	int 				color;
-	int 				z_color;
 	int					angle_x;
 	int					angle_y;
 	int					angle_z;
@@ -101,7 +101,8 @@ int						init_fdf(t_map *map, t_fdf *fdf, int cols);
 int 					check_filename(char *argv);
 int 					check_input(char *line, int *rows);
 int 					check_symb(const char *line);
-void					bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, int z);
+void					bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, t_qtrn
+						z);
 void					draw_background(t_fdf *fdf);
 void					draw_qtrn(t_fdf *fdf);
 int						draw_image(t_fdf *fdf);
@@ -116,8 +117,6 @@ void					move(int key, t_fdf *fdf);
 void					changez(int key, t_fdf *fdf);
 void					rotate(int key, t_fdf *fdf);
 void					print_menu(t_fdf *fdf);
-void					change_projection(int key, t_fdf *fdf);
-t_point					project(t_point p, t_fdf *fdf);
 t_qtrn 					quaterni(t_fdf *fdf, int r, int c);
-
+t_qtrn					create_vector(int x, int y, int z);
 #endif
