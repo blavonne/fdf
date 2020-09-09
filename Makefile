@@ -13,9 +13,9 @@
 NAME = fdf
 
 SRC = ./srcs/main.c ./srcs/read.c ./srcs/fdf_init.c ./srcs/draw.c\
-	./srcs/checks.c ./srcs/bresenham.c ./srcs/quaterni.c ./srcs/mouse.c\
-	./srcs/keymlx.c ./srcs/cntrl.c ./srcs/dimens.c ./srcs/menu.c ./srcs/keys.c\
-	./srcs/caminit.c
+	./srcs/checks.c ./srcs/bresenham.c ./srcs/quaterni.c\
+	./srcs/keymlx.c ./srcs/cntrl.c ./srcs/menu.c ./srcs/keys.c\
+	./srcs/clean.c
 OBJ = $(SRC:%.c=%.o)
 
 INCLUDES = ./includes

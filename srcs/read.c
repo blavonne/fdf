@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/30 12:13:36 by jquincy           #+#    #+#             */
+/*   Updated: 2020/07/07 12:58:55 by blavonne         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 static void	clean_map(t_map **map)
@@ -46,46 +58,7 @@ static int	push_in_map(t_map **map, char *line)
 	return (1);
 }
 
-static void	display_input(t_fdf **coords) //DELETE
-{
-	int		r;
-	int		c;
-
-	r = 0;
-	printf("ROWS: %i COLS: %i\n", (int)(*coords)->rows, (int)(*coords)->cols);
-	while (r < (*coords)->rows)
-	{
-		c = 0;
-		while (c < (*coords)->cols)
-		{
-			printf("%3i", (*coords)->z[r][c]);
-			c++;
-		}
-		printf("\n");
-		r++;
-	}
-}
-
-//static void	display_input2(t_map *map) //DELETE
-//{
-//	t_map *tmp;
-//	size_t i;
-//
-//	tmp = map;
-//	while(tmp)
-//	{
-//		i = 0;
-//		while (tmp->line[i])
-//		{
-//			printf("%3s", tmp->line[i]);
-//			i++;
-//		}
-//		printf("\n");
-//		tmp = tmp->next;
-//	}
-//}
-
-static int 	create_map(t_map **map)
+static int	create_map(t_map **map)
 {
 	if (!(*map = (t_map *)malloc(sizeof(t_map))))
 		return (0);
@@ -98,8 +71,8 @@ int			read_and_init(char *argv, t_fdf *fdf)
 {
 	char	*line;
 	t_map	*map;
-	int 	fd;
-	int 	cols;
+	int		fd;
+	int		cols;
 
 	cols = 0;
 	fd = open(argv, O_RDONLY);
@@ -118,8 +91,6 @@ int			read_and_init(char *argv, t_fdf *fdf)
 	free(line);
 	close(fd);
 	fd = init_fdf(map, fdf, cols);
-//	display_input2(map); //DELETE
-	fd ? display_input(&fdf) : 1; //DELETE
 	clean_map(&map);
 	return (fd);
 }

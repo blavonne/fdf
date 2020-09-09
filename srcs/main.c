@@ -6,34 +6,18 @@
 /*   By: blavonne <blavonne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 19:33:03 by blavonne          #+#    #+#             */
-/*   Updated: 2019/12/28 22:55:47 by blavonne         ###   ########.fr       */
+/*   Updated: 2019/12/30 17:06:56 by blavonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-/*
- * ptr = mlx_init() - создание указателя на подключение
- * wptr = mlx_new_window(указатель на подключение, ширина, высота,
- * "Заголовок") - указатель окна
- * mlx_loop(ptr) - чтобы не закрывалось, аналог гетча
- * mlx_pixel_put(указатель на подключение, указатель на окно, координата по
- * х, координата по у, цвет RGB 0xAARRGGBB)
- * ESC key 53
- * mlx_key_hook(указатель окна, функция, указатель на параметр функции)
- * функция будет иметь вид "тип название (int key, void *param), где key -
- * нажатая клавиша, которая сама определяется функцией млх кей хук
- */
-
-/*
- * клавиши разбиты на группы, чтобы не нагромождать код след. функции
- */
 static int		what_key(int key)
 {
 	if (key == 53)
 		return (1);
-	if (key == NUM_PAD_PLUS || key == MAIN_PAD_PLUS	|| key == NUM_PAD_MINUS ||
-	key == MAIN_PAD_MINUS)
+	if (key == NUM_PAD_PLUS || key == MAIN_PAD_PLUS || key == NUM_PAD_MINUS
+			|| key == MAIN_PAD_MINUS)
 		return (2);
 	if (key == ARROW_LEFT || key == ARROW_RIGHT || key == ARROW_UP || key ==
 	ARROW_DOWN || key == MOUSE_SCROLL_UP || key == MOUSE_SCROLL_DOWN)
@@ -45,11 +29,11 @@ static int		what_key(int key)
 		NUM_PAD_7 || key == MAIN_PAD_7 || key == NUM_PAD_9 || key == MAIN_PAD_9)
 		return (4);
 	if (key == MAIN_PAD_LESS || key == MAIN_PAD_MORE)
-	    return (5);
+		return (5);
 	return (0);
 }
 
-static int	mouse_press(int button, int x, int y, t_fdf *fdf)
+static int		mouse_press(int button, int x, int y, t_fdf *fdf)
 {
 	x = 1;
 	y = 1;
@@ -58,11 +42,22 @@ static int	mouse_press(int button, int x, int y, t_fdf *fdf)
 	return (1);
 }
 
-static int 	deal_key(int key, t_fdf *fdf)
+static void		clean_fdf(t_fdf *fdf)
 {
-	printf("%i ", key);
+	clean_int_matrix(fdf->z, fdf->rows);
+	clean_int_matrix(fdf->incidence_matrix, fdf->rows);
+	mlx_destroy_image((*fdf).mlx_ptr, (*fdf).image.img_ptr);
+	mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
+	free(fdf->mlx_ptr);
+}
+
+static int		deal_key(int key, t_fdf *fdf)
+{
 	if (what_key(key) == 1)
+	{
+		clean_fdf(fdf);
 		exit(0);
+	}
 	if (what_key(key) == 2)
 		zoom(key, fdf);
 	else if (what_key(key) == 3)
@@ -70,11 +65,11 @@ static int 	deal_key(int key, t_fdf *fdf)
 	else if (what_key(key) == 4)
 		rotate(key, fdf);
 	else if (what_key(key) == 5)
-        changez(key, fdf);
+		changez(key, fdf);
 	return (1);
 }
 
-int main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_fdf	fdf;
 

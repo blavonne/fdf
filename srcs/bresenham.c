@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bresenham.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jquincy <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/30 12:19:00 by jquincy           #+#    #+#             */
+/*   Updated: 2019/12/30 17:19:14 by blavonne         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 static void	set_zoom(t_qtrn *start, t_qtrn *end, t_fdf *fdf)
@@ -30,7 +42,6 @@ static void	set_delta(double *dx, double *dy, t_qtrn *start, t_qtrn *end)
 			(fabs((*start).y - (*end).y))) : (-1.0 * fabs((*start).x -
 				(*end).x) / (fabs((*start).y - (*end).y)));
 	}
-//	printf("dx %f, dy %f\n", *dx, *dy); //DELETE
 }
 
 static void	set_shift(t_qtrn *start, t_qtrn *end, t_fdf *fdf)
@@ -39,13 +50,9 @@ static void	set_shift(t_qtrn *start, t_qtrn *end, t_fdf *fdf)
 	(*end).x += fdf->shift_x;
 	(*start).y += fdf->shift_y;
 	(*end).y += fdf->shift_y;
-//	(*start).x += fdf->shift_x - fdf->space * round(0.5 * fdf->cols);
-//	(*end).x += fdf->shift_x - fdf->space * round(0.5 * fdf->cols);
-//	(*start).y += fdf->shift_y - fdf->space * round(0.5 * fdf->rows);
-//	(*end).y += fdf->shift_y - fdf->space * round(0.5 * fdf->rows);
 }
 
-void	bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, t_qtrn z)
+void		bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, t_qtrn z)
 {
 	double	dx;
 	double	dy;
@@ -53,26 +60,21 @@ void	bresenham(t_qtrn start, t_qtrn end, t_fdf *fdf, t_qtrn z)
 
 	set_zoom(&start, &end, fdf);
 	set_delta(&dx, &dy, &start, &end);
-    set_shift(&start, &end, fdf);
+	set_shift(&start, &end, fdf);
 	z_color = (z.x || z.y) ? Z_COLOR : IMAGE_COLOR;
-	z_color = (z.x == z.y && z.x == fdf->max_z) ? Z_MAX : z_color;
 	if (start.x == end.x && start.y == end.y && (int)round(start.x) >= 0 &&
-		(int)round(start.x) < WIN_W && (int)round(start.y) >= 0 &&
+			(int)round(start.x) < WIN_W && (int)round(start.y) >= 0 &&
 			(int)round(start.y) < WIN_H)
-        fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W]
-                = ((int)round(start.x) + (int)round(start.y) * WIN_W % WIN_W <
-                   MENU_W) ? MENU_COLOR : z_color;
+		fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W] =
+				((int)round(start.x) + (int)round(start.y) * WIN_W % WIN_W <
+					MENU_W) ? MENU_COLOR : z_color;
 	while ((fabs(start.x - end.x) > 0.5 || fabs(start.y - end.y) > 0.5))
 	{
-		//переставить условие ниже
-		// условие означает, что, если между точками есть разница при
-		// округлении, то мы будем отрисовывать точку. округление, как в
-		// математике.
-        if ((int)round(start.x) >= 0 && (int)round(start.x) < WIN_W &&
-            (int)round(start.y) >= 0 && (int)round(start.y) < WIN_H)
-            fdf->image.image[(int)round(start.x) + (int)round(start.y) * WIN_W]
-                    = ((int)round(start.x) + (int)round(start.y) * WIN_W % WIN_W <
-                       MENU_W) ? MENU_COLOR : z_color;
+		if ((int)round(start.x) >= 0 && (int)round(start.x) < WIN_W &&
+				(int)round(start.y) >= 0 && (int)round(start.y) < WIN_H)
+			fdf->image.image[(int)round(start.x) + (int)round(start.y) *
+			WIN_W] = ((int)round(start.x) + (int)round(start.y) * WIN_W %
+					WIN_W < MENU_W) ? MENU_COLOR : z_color;
 		start.x += dx;
 		start.y += dy;
 	}
